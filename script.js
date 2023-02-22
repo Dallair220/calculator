@@ -14,11 +14,6 @@ function divide(a,b){
     return a / b;
 }
 
-// console.log(add(5,5));      // 10
-// console.log(subtract(5,5)); //  0
-// console.log(multiply(5,5)); // 25
-// console.log(divide(5,5));   //  1
-
 function operate(operator, a, b){
     switch(operator){
         case '+':
@@ -34,4 +29,22 @@ function operate(operator, a, b){
     }
 }
 
-console.log(operate('+', 10,5));
+let display = 0;
+let temp = 0;
+let stack = [];
+
+const numbers = document.querySelectorAll('.numbers');
+numbers.forEach(number => number.addEventListener('click', addDisplay));
+
+function addDisplay(e){
+    display === 0 ? display = e.target.textContent : display += e.target.textContent;
+    document.querySelector('.display').textContent = display;
+}
+
+const operators = document.querySelectorAll('.operators');
+operators.forEach(operator => operator.addEventListener('click', doOperate));
+
+function doOperate(e){
+    stack.push[temp]
+
+}
