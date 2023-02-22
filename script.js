@@ -29,6 +29,7 @@ function operate(operator, a, b){
     }
 }
 
+// Global variables
 let display = undefined;
 let firstNumber = undefined;
 let operatorVal = undefined;
@@ -36,7 +37,7 @@ let secondNumber = 0;
 
 const numbers = document.querySelectorAll('.numbers');
 numbers.forEach(number => number.addEventListener('click', addDisplay));
-
+// Enter numbers
 function addDisplay(e){
     if(secondNumber === 0){
         secondNumber = e.target.textContent;
@@ -50,19 +51,24 @@ function addDisplay(e){
 
 const operators = document.querySelectorAll('.operators');
 operators.forEach(operator => operator.addEventListener('click', doOperate));
-
+// Operator functionality
 function doOperate(e){
-    // wenn der Operator das 1. Mal ausgefuehrt wurde
-    if(operatorVal === undefined){
+    if(operatorVal === undefined){  // when the operator was clicked the first time
         firstNumber = secondNumber;
         secondNumber = 0;
         operatorVal = e.target.textContent;
         display = (firstNumber + operatorVal);
-    }else { 
+    }else if(e.target.textContent !== '='){ 
         firstNumber = operate(operatorVal, firstNumber, secondNumber);
         secondNumber = 0;
         operatorVal = e.target.textContent;
         display = firstNumber + e.target.textContent;
+    }else{
+        console.log('RESULT');
+        firstNumber = operate(operatorVal, firstNumber, secondNumber);
+        secondNumber = firstNumber;
+        operatorVal = undefined;
+        display = firstNumber;
     }
     
     document.querySelector('.display').textContent = display;
