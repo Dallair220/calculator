@@ -39,6 +39,7 @@ const numbers = document.querySelectorAll('.numbers');
 numbers.forEach(number => number.addEventListener('click', addDisplay));
 // Enter numbers
 function addDisplay(e){
+    console.log(secondNumber);
     if(secondNumber === 0){
         secondNumber = e.target.textContent;
     } else {
@@ -64,7 +65,6 @@ function doOperate(e){
         operatorVal = e.target.textContent;
         display = firstNumber + e.target.textContent;
     }else{
-        console.log('RESULT');
         firstNumber = operate(operatorVal, firstNumber, secondNumber);
         secondNumber = firstNumber;
         operatorVal = undefined;
@@ -74,3 +74,14 @@ function doOperate(e){
     document.querySelector('.display').textContent = display;
 }
 
+const clearButton = document.querySelector('.ac');
+clearButton.addEventListener('click', clearFn);
+// Clear Functionality
+function clearFn(e){
+    display = undefined;
+    firstNumber = undefined;
+    operatorVal = undefined;
+    secondNumber = 0;
+
+    document.querySelector('.display').textContent = secondNumber;
+}
