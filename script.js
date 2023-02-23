@@ -55,17 +55,21 @@ const operators = document.querySelectorAll('.operators');
 operators.forEach(operator => operator.addEventListener('click', doOperate));
 // Operator functionality
 function doOperate(e){
-    if(operatorVal === undefined){  // when the operator was clicked the first time
+    if(operatorVal === undefined){  
+        // when an operator was clicked the first time
         firstNumber = secondNumber;
         secondNumber = 0;
         operatorVal = e.target.textContent;
         display = (firstNumber + operatorVal);
-    }else if(e.target.textContent !== '='){ 
+    }else if(e.target.textContent !== '='){  
+        // when an operator was clicked at least once
         firstNumber = operate(operatorVal, firstNumber, secondNumber);
         secondNumber = 0;
         operatorVal = e.target.textContent;
         display = firstNumber + e.target.textContent;
-    }else{
+    }else{  
+        // when '=' was clicked
+        console.log('CLICKED')
         firstNumber = operate(operatorVal, firstNumber, secondNumber);
         secondNumber = firstNumber;
         operatorVal = undefined;
@@ -86,3 +90,16 @@ function clearFn(e){
 
     document.querySelector('.display').textContent = secondNumber;
 }
+
+const backspace = document.querySelector('.backspace');
+backspace.addEventListener('click', rmLastDigit);
+// Backspace functionality; not clean but does the job
+function rmLastDigit(e){
+    if(secondNumber !== 0) secondNumber = secondNumber.substring(0, secondNumber.length-1);
+    (firstNumber === undefined) 
+        ? document.querySelector('.display').textContent = secondNumber
+        : document.querySelector('.display').textContent = firstNumber + operatorVal + secondNumber;
+
+}
+
+
