@@ -11,7 +11,7 @@ function multiply(a,b){
 }
 
 function divide(a,b){
-    return a / b;
+    return +b !== 0 ? a / b : ('Dont you dare to divide by zero');
 }
 
 function operate(operator, a, b){
@@ -39,7 +39,6 @@ const numbers = document.querySelectorAll('.numbers');
 numbers.forEach(number => number.addEventListener('click', addDisplay));
 // Enter numbers
 function addDisplay(e){
-    console.log(secondNumber);
     if(secondNumber === 0){
         secondNumber = e.target.textContent;
     } else {
