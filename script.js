@@ -25,7 +25,7 @@ function operate(operator, a, b){
         case '×':
             return multiply(a,b);
         case '÷':
-            return Math.round(divide(a,b) * Math.pow(10,15)) / Math.pow(10,15);
+            return Math.round(divide(a,b) * Math.pow(10,11)) / Math.pow(10,11);
         default:
             return "only enter one of these operators: + - * /";
     }
@@ -46,7 +46,6 @@ function addDisplay(e){
     } else if(firstNumber === undefined || operatorVal !== undefined) {
         secondNumber += e.target.textContent;
     } else {
-        console.log("else")
         clearFn();
         addDisplay(e);
     }
@@ -59,13 +58,13 @@ const operators = document.querySelectorAll('.operators');
 operators.forEach(operator => operator.addEventListener('click', doOperate));
 // Operator functionality
 function doOperate(e){
-    if(operatorVal === undefined){  
+    if(firstNumber === undefined && operatorVal === undefined && e.target.textContent !== '='){  
         // when an operator was clicked the first time
         firstNumber = secondNumber;
         secondNumber = 0;
         operatorVal = e.target.textContent;
         display = (firstNumber + operatorVal);
-    }else if(e.target.textContent !== '='){  
+    }else if(!(firstNumber === 0) && !(firstNumber === undefined) && e.target.textContent !== '='){  
         // when an operator was clicked at least once
         firstNumber = operate(operatorVal, firstNumber, secondNumber);
         secondNumber = 0;
@@ -73,7 +72,7 @@ function doOperate(e){
         display = firstNumber + e.target.textContent;
     }else{  
         // when '=' was clicked
-        console.log('CLICKED')
+        if(operatorVal === undefined) return;
         firstNumber = operate(operatorVal, firstNumber, secondNumber);
         secondNumber = firstNumber;
         operatorVal = undefined;
@@ -100,6 +99,7 @@ backspace.addEventListener('click', rmLastDigit);
 // Backspace functionality; not clean but does the job
 function rmLastDigit(e){
     if(secondNumber !== 0) secondNumber = secondNumber.substring(0, secondNumber.length-1);
+    if(secondNumber.length === 0) secondNumber = 0;
     (firstNumber === undefined) 
         ? document.querySelector('.display').textContent = secondNumber
         : document.querySelector('.display').textContent = firstNumber + operatorVal + secondNumber;
@@ -107,3 +107,15 @@ function rmLastDigit(e){
 }
 
 
+const decimal = document.querySelector('.decimal');
+decimal.addEventListener('click', addDecimal);
+// Decimal functionality
+function addDecimal(e){
+    if(secondNumber === 0) secondNumber = "0."
+
+    if(!secondNumber.includes(".")) secondNumber += ".";
+
+    (firstNumber === undefined) 
+        ? document.querySelector('.display').textContent = secondNumber
+        : document.querySelector('.display').textContent = firstNumber + operatorVal + secondNumber;
+}
