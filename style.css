@@ -14,7 +14,7 @@ h1,
 
 .display{
     text-align: right;
-    font-size: 30px;
+    font-size: 40px;
     padding: 10px;
     border-bottom: solid;
 }
@@ -51,4 +51,37 @@ button:hover{
 
 .blank:hover{
     background-color: rgb(242, 242, 242);
+}
+
+
+.operators{
+    background-color: orange;
+}
+
+.result{
+    background-color: brown;
+}
+
+.zero,
+.ac{
+    aspect-ratio: auto;
+}
+
+.zero,
+.rightofx{
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.decimal,
+.result,
+.backspace,
+.divide{
+    width: 70px;
+}
+
+.ac,
+.blank,
+.backspace{
+    background-color: lightskyblue;
 }
