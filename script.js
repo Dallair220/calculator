@@ -25,7 +25,7 @@ function operate(operator, a, b){
         case '×':
             return multiply(a,b);
         case '÷':
-            return divide(a,b);
+            return Math.round(divide(a,b) * Math.pow(10,15)) / Math.pow(10,15);
         default:
             return "only enter one of these operators: + - * /";
     }
@@ -43,9 +43,13 @@ numbers.forEach(number => number.addEventListener('click', addDisplay));
 function addDisplay(e){
     if(secondNumber === 0){
         secondNumber = e.target.textContent;
-    } else {
+    } else if(firstNumber === undefined || operatorVal !== undefined) {
         secondNumber += e.target.textContent;
-    }    
+    } else {
+        console.log("else")
+        clearFn();
+        addDisplay(e);
+    }
 
     display = (firstNumber === undefined) ? secondNumber : (firstNumber + operatorVal + secondNumber);
     document.querySelector('.display').textContent = display;
