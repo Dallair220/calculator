@@ -1,5 +1,3 @@
-// changes
-
 function add(a,b){
     return (+a) + (+b);
 }
@@ -21,8 +19,10 @@ function operate(operator, a, b){
         case '+':
             return add(a,b);
         case '−':
+        case '-':
             return subtract(a,b);
         case '×':
+        case '*':
             return multiply(a,b);
         case '÷':
             return Math.round(divide(a,b) * Math.pow(10,11)) / Math.pow(10,11);
@@ -41,10 +41,12 @@ const numbers = document.querySelectorAll('.numbers');
 numbers.forEach(number => number.addEventListener('click', addDisplay));
 // Enter numbers
 function addDisplay(e){
+    let textContentVal = e.type === 'click' ? e.target.textContent : e.key;
+
     if(secondNumber === 0){
-        secondNumber = e.target.textContent;
+        secondNumber = textContentVal;
     } else if(firstNumber === undefined || operatorVal !== undefined) {
-        secondNumber += e.target.textContent;
+        secondNumber += textContentVal;
     } else {
         clearFn();
         addDisplay(e);
@@ -58,20 +60,28 @@ const operators = document.querySelectorAll('.operators');
 operators.forEach(operator => operator.addEventListener('click', doOperate));
 // Operator functionality
 function doOperate(e){
-    if(firstNumber === undefined && operatorVal === undefined && e.target.textContent !== '='){  
+    let textContentVal = e.type === 'click' ? e.target.textContent : e.key;
+
+    if(firstNumber === undefined && operatorVal === undefined && textContentVal !== '=' && textContentVal !== 'Enter'){  
         // when an operator was clicked the first time
+        console.log("first");
+
         firstNumber = secondNumber;
         secondNumber = 0;
-        operatorVal = e.target.textContent;
+        operatorVal = textContentVal;
         display = (firstNumber + operatorVal);
-    }else if(!(firstNumber === 0) && !(firstNumber === undefined) && e.target.textContent !== '='){  
+    }else if(!(firstNumber === 0) && !(firstNumber === undefined) && textContentVal !== '=' && textContentVal !== 'Enter'){  
         // when an operator was clicked at least once
+        console.log("second");
+
         firstNumber = operate(operatorVal, firstNumber, secondNumber);
         secondNumber = 0;
-        operatorVal = e.target.textContent;
-        display = firstNumber + e.target.textContent;
+        operatorVal = textContentVal;
+        display = firstNumber + textContentVal;
     }else{  
         // when '=' was clicked
+        console.log("third");
+
         if(operatorVal === undefined) return;
         firstNumber = operate(operatorVal, firstNumber, secondNumber);
         secondNumber = firstNumber;
@@ -119,3 +129,45 @@ function addDecimal(e){
         ? document.querySelector('.display').textContent = secondNumber
         : document.querySelector('.display').textContent = firstNumber + operatorVal + secondNumber;
 }
+
+
+const keyboard = document.querySelector('body');
+console.log(keyboard);
+
+keyboard.addEventListener('keydown', addKeyboard);
+function addKeyboard(e){
+    console.log(e.key);
+    switch(e.key){
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            addDisplay(e);
+            break;
+        case '*':
+        case '/':
+        case '+':
+        case '-':
+        case '=':
+        case 'Enter':
+            doOperate(e);
+            break;
+        case '.':
+        case ',':
+            addDecimal(e);
+            break;
+        case 'Escape':
+            clearFn();
+            break;
+        case "Backspace":
+            rmLastDigit();
+            break;
+    }
+}
+
